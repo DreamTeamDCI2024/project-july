@@ -17,10 +17,8 @@ app.use(express.urlencoded({ limit: "50mb", extended: true }));
 app.use(express.json({ limit: "50mb", extended: true }));
 
 // Paths
-app.get('/hello', (req, res) => {
-    console.log(req);
-
-    res.send("HI");
+app.get('/', (req, res) => {
+    console.log("Hello");
 })
 app.use('/api',productRoutes);
 app.use('/api',setRoutes);
