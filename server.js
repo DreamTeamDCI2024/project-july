@@ -1,6 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
+import productRoutes from './routes/productRouter.js';
 
 dotenv.config();
 
@@ -18,6 +19,7 @@ app.use(express.json({ limit: "50mb", extended: true }));
 app.get('/', (req, res) => {
     console.log("Hello");
 })
+app.use('/api',productRoutes);
 
 // Listening server
 mongoose
