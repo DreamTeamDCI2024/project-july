@@ -1,2 +1,28 @@
 # project-july
 2project
+### PostMan
+
+**Endpoints to use in the back-office:**
+
+1. **Get the list of products:**
+   - **URL:** `http://localhost:4000/api/products`
+   - **Description:** Retrieves the list of products using the `getProducts` function.
+   - **Method:** GET
+
+2. **Get images of a specific product:**
+   - **URL:** `http://localhost:4000/api/products/66985bd197cb0122cd7e42b8/images`
+   - **Description:** This endpoint uses the `getProductImageUrl` function to check how many images are associated with a specific product. It returns the URL and description of each image.
+   - **Method:** GET
+   - **Example:** This example uses the product ID `66985bd197cb0122cd7e42b8` to retrieve images.
+
+3. **Add an image to a specific product:**
+   - **URL:** `http://localhost:4000/api/products/66985bd197cb0122cd7e42b8/images`
+   - **Description:** This endpoint uses the `patchProductImage` function to add an image to a specific product. You need to provide the path and description of the image stored in the `productImages` folder.
+   - **Method:** PATCH
+   - **Example:** This example uses the ID `66985bd197cb0122cd7e42b8` to add an image to the product.
+
+3. **See an image of a specific product:**
+   - **URL:** `http://localhost:4000/api/products/66985bd197cb0122cd7e42b8/images/index/1`
+   - **Description:** This endpoint uses the `getProductImageByIndex` function to display a transformed image of a specific product. You need to provide the product Id and the index of the image in the images array.
+   - **Method:** GET
+   - **Example:** This example uses the ID `66985bd197cb0122cd7e42b8` and the index 1.   

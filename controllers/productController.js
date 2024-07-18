@@ -41,6 +41,7 @@ export async function createProduct(req, res) {
         res.status(400).json({ message: 'Error creating product: ' + error.message });
     }
 }
+
 export async function updateProduct(req, res) {
     const { id } = req.params; 
     const { name, description, price, categories, materials, stock, featured, images } = req.body;
@@ -86,6 +87,7 @@ export async function deleteProduct(req, res) {
         res.status(500).json({ message: error.message });
     }
 }
+
 export async function getProductImageUrl(req, res) {
     try {
         const product = await Product.findById(req.params.id).select('images');
@@ -133,3 +135,34 @@ export async function patchProductImage(req, res) {
         res.status(500).json({ message: error.message });
     }
 }
+
+function applyTransformations(url, transformations) {
+    const baseUrl = url.split('/upload/');
+    const transformedUrl = `${baseUrl[0]}/upload/${transformations}/${baseUrl[1]}`;
+    return transformedUrl;
+}
+
+export async function getProductImageByIndex(req, res) {
+    try {
+        const { productId, index } = req.params;
+        const product = await Product.findById(productId);
+        if (!product) {
+            return res.status(404).json({ message: 'Product not found' });
+        }
+        const imageIndex = parseInt(index, 10);
+        if (isNaN(imageIndex) || imageIndex < 0 || imageIndex >= product.images.length) {
+            return res.status(404).json({ message: 'Image index out of bounds' });
+        }
+        const image = product.images[imageIndex];
+        if (!image) {
+            return res.status(404).json({ message: 'Image not found' });
+        }
+        const transformations = 'w_400,h_400,c_fit'; // we can use c_fit or c_fill
+        const transformedImageUrl = applyTransformations(image.url, transformations);
+        res.redirect(transformedImageUrl);
+    } catch (error) {
+        res.status(400).json({ message: 'Error retrieving image: ' + error.message });
+    }
+}
+
+
