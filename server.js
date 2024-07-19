@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import productRoutes from './routes/productRouter.js';
+import setRoutes from './routes/setRouter.js';
 
 dotenv.config();
 
@@ -22,6 +23,7 @@ app.get('/hello', (req, res) => {
     res.send("HI");
 })
 app.use('/api',productRoutes);
+app.use('/api',setRoutes);
 
 // Listening server
 mongoose
