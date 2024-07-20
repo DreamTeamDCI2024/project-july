@@ -1,6 +1,7 @@
 import Set from "../models/productSetModel.js";
 import Product from "../models/productModel.js";
 import cloudinary from "../config/cloudinaryConfig.js";
+import mongoose from "mongoose";
 
 async function verifyProductsExist(productIds) {
     const existingProducts = await Product.find({ '_id': { $in: productIds } });
@@ -8,34 +9,37 @@ async function verifyProductsExist(productIds) {
         throw new Error('Some products do not exist');
     }
 }
-export async function createSet (req, res){
-    try{
-        const {name, description, products, price, images, featured} = req.body;
-        
-        await verifyProductsExist(products);
-        const set = await Set.findById(req.params.id);
-        if (!set) {
-            return res.status(404).json({ message: 'Set not found' });
+export async function createSet(req, res) {
+    try {
+        const { name, description, products, price, images, featured } = req.body;
+        const formattedProducts = products.map(prod => ({
+            productId: new mongoose.Types.ObjectId(prod.productId),  // Asegúrate de convertir a ObjectId
+            quantity: prod.quantity
+        }));
+        const newSet = new Set({
+            name,
+            description,
+            products:formattedProducts,
+            price,
+            images: [],
+            featured
+        });
+        if (images && images.length > 0) {
+            const uploadedImages = await Promise.all(
+                images.map(async image => {
+                    const result = await cloudinary.uploader.upload(image.path);
+                    return {
+                        url: result.url,
+                        description: image.description
+                    };
+                })
+            );
+            newSet.images = uploadedImages;
         }
-        set.name = name;
-        set.description = description;
-        set.products = products;
-        set.price = price;
-        if(images){
-          set.images = await Promise.all(
-            images.map( async image => {
-                const result = await cloudinary.uploader.upload(image.path);
-                return {
-                    url: result.url,
-                    description: image.description
-                };
-            })
-          );
-        }
-        await set.save();
-        res.status(200).json(set);
-    }catch (error) {
-        res.status(400).json({ message: 'Error updating set: ' + error.message });
+        await newSet.save();
+        res.status(201).json(newSet);
+    } catch (error) {
+        res.status(400).json({ message: 'Error creating set: ' + error.message });
     }
 }
 export async function getSets(req, res) {
@@ -52,9 +56,9 @@ export async function deleteSet(req, res) {
         if (!set) {
             return res.status(404).json({ message: "Set not found" });
         }
-        res.status(204).send();  // No content to return after deletion
+        res.status(204).send(); 
     } catch (error) {
-        console.error(error);  // Log the error for internal use
+        console.error(error); 
         res.status(500).json({ message: "Internal server error" });
     }
 }

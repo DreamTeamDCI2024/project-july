@@ -27,6 +27,29 @@
    - **Method:** GET
    - **Example:** This example uses the ID `66985bd197cb0122cd7e42b8` and the index 1.
 
+   **For administrative uses to:
+5. **Create a product:**
+   - **URL:** `http://localhost:4000/api/products
+   - **Description:** This endpoint uses the`createProduct` function. To test it you need -in POSTMAN to create a JSON raw and provide the relative path to the images.
+   - **Method:** POST
+   - **Example:** 
+        ```json-
+     {
+      "name": "Mallorcan chair",
+      "description": "Wicker chair inspired by Mallorcan style",
+      "price": 99.99,
+      "categories": ["furniture", "living room"],
+      "materials": ["Wicker"],
+      "images": [
+        {
+          "path": "data/productImages/wicker chair Mallorcan style.webp",
+          "description": "Angle view"
+        }
+      ],
+      "stock": 50,
+      "featured": true
+    }
+    ```
    ******************************************************
 
 1. **Get the list of sets:**
