@@ -1,4 +1,4 @@
-import Set from "../models/productSetModels.js";
+import Set from "../models/productSetModel.js";
 import Product from "../models/productModel.js";
 import cloudinary from "../config/cloudinaryConfig.js";
 
