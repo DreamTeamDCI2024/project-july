@@ -1,8 +1,11 @@
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import Product from './models/productModel.js';
+import Set from './models/productSetModels.js';
 import cloudinary from './config/cloudinaryConfig.js';
 import {products} from './data/products.js';
+import {sets} from './data/sets.js';
+import path from 'path';
 
 dotenv.config();
 
@@ -42,4 +45,44 @@ mongoose.connect(process.env.CONNECTION_URL)
         console.error('Error creating products:', error);
     }
    }
- createProducts();
+
+   async function seedSets() {
+    try {
+      // Esta línea es para eliminar los sets y repoblar la base de datos
+      // await Set.deleteMany({});
+  
+      for (const setData of sets) {
+        const imageUpload = setData.images.map(image => uploadImage(path.resolve(image.path)));
+        const imageUrls = await Promise.all(imageUpload);
+  
+        const imagesWithUrls = imageUrls.map((url, index) => ({
+          url: url,
+          description: setData.images[index].description
+        }));
+  
+        const newSet = new Set({
+          name: setData.name,
+          description: setData.description,
+          products: setData.products,
+          price: setData.price,
+          images: imagesWithUrls,
+          featured: setData.featured
+        });
+  
+        await newSet.save();
+        console.log('Set guardado:', newSet);
+      }
+      console.log('Sets seeded successfully');
+    } catch (error) {
+      console.error('Error seeding sets:', error);
+    } finally {
+      mongoose.connection.close();
+    }
+  }
+  
+ //createProducts();
+
+ seedSets().catch(error => {
+    console.error('Error seeding sets:', error);
+    mongoose.connection.close();
+  });

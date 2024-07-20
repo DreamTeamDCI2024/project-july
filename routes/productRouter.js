@@ -4,7 +4,8 @@ import { getProducts,
          updateProduct,
          deleteProduct,
          getProductImageUrl,
-         patchProductImage } from '../controllers/productController.js';
+         patchProductImage,
+         getProductImageByIndex } from '../controllers/productController.js';
 
 const router = express.Router();
 
@@ -18,6 +19,7 @@ router.delete('/products/:id', deleteProduct);
 
 router.get('/products/:id/images', getProductImageUrl);
 
-router.patch('/products/:id/images', patchProductImage);
+router.patch('/products/:id/images', patchProductImage); //To add image to an existing product
 
+router.get('/products/:productId/images/index/:index', getProductImageByIndex);// Here we can see the image by index in images array(the image come transformed from cloudinary)
 export default router;

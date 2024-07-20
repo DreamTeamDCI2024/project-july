@@ -1,8 +1,8 @@
-import { Schema, model } from "mongoose";
+import mongoose, { Schema, model } from "mongoose";
 //This model can be especially useful for selling thematic or decorative sets that are designed 
 //to complement each other, such as a living room set or a bedroom decor set.
 
-const setSchema = new Schema ({
+const setSchema = new Schema({
     name: {
         type: String,
         required: true,
