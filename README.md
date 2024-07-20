@@ -25,4 +25,21 @@
    - **URL:** `http://localhost:4000/api/products/66985bd197cb0122cd7e42b8/images/index/1`
    - **Description:** This endpoint uses the `getProductImageByIndex` function to display a transformed image of a specific product. You need to provide the product Id and the index of the image in the images array.
    - **Method:** GET
-   - **Example:** This example uses the ID `66985bd197cb0122cd7e42b8` and the index 1.   
+   - **Example:** This example uses the ID `66985bd197cb0122cd7e42b8` and the index 1.
+
+   ******************************************************
+
+1. **Get the list of sets:**
+   - **URL:** `http://localhost:4000/api/sets`
+   - **Description:** Retrieves the list of sets using the `getSets` function.
+   - **Method:** GET   
+2. **Get images of a specific set:**
+   - **URL:** `http://localhost:4000/api/sets/669aa2311b2b9c3b9877bfa1/images`
+   - **Description:** This endpoint uses the `getSetImageUrl` function-controller to check how many images are associated with a specific set of products. It returns the URL and description of each image.
+   - **Method:** GET
+   - **Example:** This example uses the set ID `669aa2311b2b9c3b9877bfa1` to retrieve images.
+3. **See an image of a specific set:**
+   - **URL:** `http://localhost:4000/api/sets/669aa2311b2b9c3b9877bfa1/images/index/1`
+   - **Description:** This endpoint uses the `getSetImageByIndex` function to display a transformed image of a specific set of products. You need to provide the set Id and the index of the image in the images array.
+   - **Method:** GET
+   - **Example:** This example uses the set ID `669aa2311b2b9c3b9877bfa1` and the index 1.   
