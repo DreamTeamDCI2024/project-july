@@ -100,3 +100,32 @@ export async function getSetImageByIndex(req, res) {
         res.status(400).json({ message: 'Error retrieving image: ' + error.message });
     }
 }
+export async function getSetDetails(req, res) {
+    try {
+        const { id } = req.params;
+        const set = await Set.findById(id).populate('products.productId');
+
+        if (!set) {
+            return res.status(404).json({ message: 'Set not found' });
+        }
+
+        // Formatear la respuesta para incluir los detalles del producto y la cantidad
+        const setDetails = {
+            name: set.name,
+            description: set.description,
+            products: set.products.map(item => ({
+                product: item.productId,
+                quantity: item.quantity
+            })),
+            price: set.price,
+            images: set.images,
+            featured: set.featured,
+            createdAt: set.createdAt,
+            updatedAt: set.updatedAt
+        };
+
+        res.status(200).json(setDetails);
+    } catch (error) {
+        res.status(400).json({ message: 'Error retrieving set details: ' + error.message });
+    }
+}
