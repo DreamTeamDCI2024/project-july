@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 import mongoose from "mongoose";
 import productRoutes from "./routes/productRouter.js";
 import setRoutes from "./routes/setRouter.js";
-import authRouter from "./routes/authRouter.js";
+import userRouter from "./routes/userRouter.js";
 dotenv.config();
 
 // Initialize the app
@@ -22,7 +22,7 @@ app.get("/", (req, res) => {
 });
 app.use("/api", productRoutes);
 app.use("/api", setRoutes);
-app.use("/auth", authRouter);
+app.use("/user", userRouter);
 // Listening server
 mongoose
   .connect(process.env.CONNECTION_URL)
