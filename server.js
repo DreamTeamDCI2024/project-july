@@ -1,9 +1,9 @@
-import express from 'express';
-import dotenv from 'dotenv';
-import mongoose from 'mongoose';
-import productRoutes from './routes/productRouter.js';
-import setRoutes from './routes/setRouter.js';
-
+import express from "express";
+import dotenv from "dotenv";
+import mongoose from "mongoose";
+import productRoutes from "./routes/productRouter.js";
+import setRoutes from "./routes/setRouter.js";
+import authRouter from "./routes/authRouter.js";
 dotenv.config();
 
 // Initialize the app
@@ -17,21 +17,21 @@ app.use(express.urlencoded({ limit: "50mb", extended: true }));
 app.use(express.json({ limit: "50mb", extended: true }));
 
 // Paths
-app.get('/', (req, res) => {
-    console.log("Hello");
-})
-app.use('/api',productRoutes);
-app.use('/api',setRoutes);
-
+app.get("/", (req, res) => {
+  console.log("Hello");
+});
+app.use("/api", productRoutes);
+app.use("/api", setRoutes);
+app.use("/auth", authRouter);
 // Listening server
 mongoose
-    .connect(process.env.CONNECTION_URL)
-    .then(() => {
-        app.listen(PORT, () => {
-            console.log(`Server running on ${PORT}`);
-        });
-    })
-    .catch((error) => console.log(error));
+  .connect(process.env.CONNECTION_URL)
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(`Server running on ${PORT}`);
+    });
+  })
+  .catch((error) => console.log(error));
 
-console.log('PORT:', process.env.PORT);
-console.log('CONNECTION_URL:', process.env.CONNECTION_URL);
+console.log("PORT:", process.env.PORT);
+console.log("CONNECTION_URL:", process.env.CONNECTION_URL);
