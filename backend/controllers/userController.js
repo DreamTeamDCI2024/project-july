@@ -4,9 +4,6 @@ import jwt from "jsonwebtoken";
 
 
 
-
-
-
 // CREATE USER
 export const signUp = async (req, res) => {
   try {
