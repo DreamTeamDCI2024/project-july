@@ -68,3 +68,7 @@
     font-weight: 500;
     
 }
+
+.loginsignup-login span{
+    cursor: pointer;
+}
