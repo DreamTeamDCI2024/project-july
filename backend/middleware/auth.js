@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 const auth = (req, res, next) => {
     try {
-        const token = req.header("token");
+        const token = req.header("Authorization");
         console.log("Token from header:", token);
         if(!token) {
             console.log("Token missing from header");

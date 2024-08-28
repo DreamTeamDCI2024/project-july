@@ -7,7 +7,7 @@ import jwt from "jsonwebtoken";
 // CREATE USER
 export const signUp = async (req, res) => {
   try {
-    const { username, email, password, phone, isAdmin, street, apartment, zip, city, country } = req.body;
+    const { username, email, password, phone, isAdmin, street, apartment, zip, city, country, image } = req.body;
 
 
     // Check If The Input Fields are Valid
@@ -41,7 +41,8 @@ export const signUp = async (req, res) => {
       apartment,
       zip,
       city,
-      country
+      country,
+      image
     });
     await newUser.save();
     return res
@@ -125,7 +126,7 @@ export const loggedIn = async (req, res) => {
 //UPDATE
 export const updateUser = async (req, res) => {
   try {
-      const { name, email, password, phone, street, apartment, zip, city, country, } = req.body;
+      const { name, email, password, phone, street, apartment, zip, city, country, image } = req.body;
       const user = await User.findById(req.user.id);
       if(!user) {
           return res.status(404).json({message: "User not found!"});
@@ -139,6 +140,7 @@ export const updateUser = async (req, res) => {
       if (zip) user.zip = zip;
       if (city) user.city = city;
       if (country) user.country = country;
+      if (image) user.image = image;
       await user.save();
       res.status(200).json({message: "User updated successfully", user });
   } catch (error) {
